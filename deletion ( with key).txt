@@ -1,0 +1,24 @@
+void delnode(Node **hint,int key){
+    Node *temp = *hint;
+    Node *prev = NULL;
+    
+    if (temp != NULL && temp -> data == key){
+        *hint = temp -> next;
+        delete temp;
+        return;
+    }
+    else{
+        while (temp != NULL && temp -> data != key){
+            prev = temp;
+            temp = temp -> next;
+        }
+        
+        if (temp == NULL)
+        return;
+        
+        prev -> next = temp -> next;
+        delete temp;
+    
+    }
+    
+}

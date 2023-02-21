@@ -1,0 +1,175 @@
+#include <iostream>
+
+using namespace std;
+
+struct node {
+    int data;
+    node *next;
+};
+
+void print(node *head){
+    node *temp = head;
+    while (temp!=NULL){
+        cout<<temp -> data<<"  ";
+        temp = temp -> next;
+    }
+}
+
+void del(node **head, int k){
+    node *temp = *head;
+    node *before = NULL;
+    while (temp -> data!=k){
+        before = temp;
+        temp = temp -> next;
+    }
+    before -> next = temp -> next;
+    delete (temp);
+}
+
+void swap(node **head, int a, int b){
+    node *temp1 = *head;
+    node *before1 = NULL;
+    while (temp1->data!=a){
+        before1 = temp1;
+        temp1 = temp1 -> next;
+    }
+    
+    node *temp2 = *head;
+    node *before2 = NULL;
+    while (temp2-> data!=b){
+        before2 = temp2;
+        temp2 = temp2 -> next;
+    }
+    before1 -> next = temp2;
+//temp2 -> next = temp1 -> next;
+    before2 -> next = temp1;
+    
+}
+
+void reverse (node **head){
+    node *current = *head;
+    node *before = NULL;
+    node *after = NULL;
+    while (current!=NULL){
+        after = current -> next;
+        current -> next = before;
+        before = current;
+        current = after;
+    }
+    *head = current;
+}
+
+node *merge(node **head, node **head1){
+    node *a = *head;
+    node *b = *head1;
+    node *dummy = new node();
+    node *temp = dummy;
+    while (a!=NULL&&b!=NULL){
+        if (a -> data < b -> data){
+            temp -> next = a;
+            a = a -> next;
+        }
+        else if (b -> data <= a -> data){
+            temp -> next = b;
+            b = b -> next;
+        }
+        temp = temp -> next;
+    }
+    
+    while (a!=NULL){
+        temp -> next = a;
+        a = a -> next;
+        temp = temp -> next;
+    }
+    
+    while (b!=NULL){
+        temp -> next = b;
+        b = b -> next;
+        temp = temp -> next;
+    }
+    
+    return dummy -> next;
+}
+
+int main(){
+    // first list
+     node *head = NULL;
+     node *second = NULL;
+     node *third = NULL;
+     node *fourth = NULL;
+     node *fifth = NULL;
+     
+     head = new node();
+     second = new node();
+     third = new node();
+     fourth = new node();
+     fifth = new node();
+     
+     head -> data = 1;
+     head -> next = second;
+     
+     second -> data = 2;
+     second -> next = third;
+     
+     third -> data = 3;
+     third -> next = fourth;
+     
+     fourth -> data = 450;
+     fourth -> next = fifth;
+     
+     fifth -> data = 500;
+     fifth -> next = NULL;
+     // second list
+     node *head1 = NULL;
+     node *second1 = NULL;
+     node *third1 = NULL;
+     node *fourth1 = NULL;
+     node *fifth1 = NULL;
+
+     head1 = new node();
+     second1 = new node();
+     third1 = new node();
+     fourth1 = new node();
+     fifth1 = new node();
+     
+     head1 -> data = 10;
+     head1 -> next = second1;
+     
+     second1 -> data = 20;
+     second1 -> next = third1;
+     
+     third1 -> data = 30;
+     third1 -> next = fourth1;
+     
+     fourth1 -> data = 40;
+     fourth1 -> next = fifth1;
+     
+     fifth1 -> data = 50;
+     fifth1 -> next = NULL;
+     
+     print(head);
+     cout<<endl<<endl;
+//     del (&head,3);javascript:void(0)
+//     swap(&head,2,4);
+/*
+     reverse(&head);
+     node *temp = fifth;
+     while (temp!=NULL){
+         cout<<temp -> data<<"  ";
+         temp = temp -> next;
+     }
+     cout<<endl;
+*/     
+    print(head1);
+    
+    cout<<endl<<endl;
+    
+//    merge(&head,&head1);
+    
+     node *temp = merge(&head,&head1);
+     while (temp!=NULL){
+         cout<<temp -> data<<"  ";
+         temp = temp -> next;
+     }
+     cout<<endl;
+}

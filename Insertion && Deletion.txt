@@ -1,0 +1,113 @@
+#include <iostream>
+
+using namespace std;
+
+struct node{
+    int data;
+    node *left, *right;
+    node (int val){
+        data = val;
+        left = NULL;
+        right = NULL;
+    }
+};
+
+int search (node* root, int k){
+    if (root==NULL || root -> data == k){
+        return root -> data;
+    }
+    
+    if (root -> data < k){
+        return search(root -> right , k);
+    }
+    else{
+        return search (root -> left, k);
+    }
+}
+
+node* insert(node *root, int val){
+    
+    if (root==NULL)
+    return new node(val);
+    
+    if (val < root -> data){
+        root -> left = insert(root -> left, val);
+    }
+    else{
+        root -> right = insert(root -> right, val);
+    }
+    return root;
+}
+
+
+node *inorder (node *root){
+    node *curr = root;
+    while (curr && curr -> left != NULL){
+        curr = curr -> left;
+        
+    }
+    return curr;
+}
+
+node *del(node *root, int k){
+    
+    if (root -> data < k){
+        root -> right = del(root -> right, k);
+    }
+    
+    else if (root -> data > k){
+        root -> left = del(root -> left, k);
+    }
+    
+    else{
+        if (root -> left == NULL){
+            node *temp = root -> right;
+            free(root);
+            return temp;
+        }
+        else if (root -> right == NULL){
+            node *temp = root -> left;
+            free(root);
+            return temp;
+        }
+        node *temp = inorder (root -> right);
+        root -> data = temp -> data;
+        root -> right = del(root -> right, temp -> data);
+        
+    }
+    return root;
+}
+
+void print(node *root){
+    if (root==NULL){
+        return;
+    }
+
+    print(root -> left);
+    cout<<root -> data<<"  ";
+    print (root -> right);
+}
+
+int main()
+{
+   
+   node *root = NULL;
+   root = insert(root,5);
+   insert(root,1);
+   insert(root,3);
+   insert(root,4);
+   insert(root,2);
+   insert(root,7);
+   insert(root,15);
+   
+   print(root);
+   cout<<endl;
+
+   int n; cin>>n;
+//   cout<<search(root,n);
+   
+   root = del(root,n);
+   print(root);
+   
+   return 0;
+}         

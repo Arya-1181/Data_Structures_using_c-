@@ -1,0 +1,69 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+class stacking{
+    
+    public:
+    
+    queue <int> qe;
+    
+    void push(int k){
+        qe.push(k);
+    }
+    
+    void pop(){
+        if (qe.empty()){
+            cout<<"Queue Underflow"<<endl;
+            return;
+        }
+        
+        queue <int> temp;
+        
+        while (!qe.empty()){
+            temp.push(qe.front());
+            qe.pop();
+        }
+        
+        temp.pop();
+        
+        while (!temp.empty()){
+            qe.push(temp.front());
+            temp.pop();
+        }
+    }
+    
+    void print(){
+        
+        if (qe.empty()){
+            cout<<"Queue is Empty"<<endl;
+            return;
+        }
+        
+        while(!qe.empty()){
+            cout<<qe.front()<<"  ";
+            qe.pop();
+        }
+        cout<<endl;
+    }
+};
+
+int main(){
+    stacking st;
+    st.push(10);
+    st.push(20);
+    st.push(30);
+    st.push(40);
+    st.push(50);
+    
+    st.pop();
+    st.pop();
+    st.pop();
+    st.pop();
+    st.pop();
+    st.pop();
+    
+    
+    st.print();
+    
+}

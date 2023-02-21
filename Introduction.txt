@@ -1,0 +1,111 @@
+#include <iostream>
+
+#define INT_MIN 0
+
+using namespace std;
+
+class queue{
+    public:
+    int front, rear, size;
+    unsigned capacity;
+    int *array;
+};
+
+queue *create_queue(unsigned capacity){
+    queue *que = new queue();
+    que -> capacity = capacity;
+    que -> front = que -> size = 0;
+    que -> rear = capacity - 1;
+    que -> array = new int[que -> capacity];
+    return que;
+}
+
+int isfull(queue *que){
+    return (que -> size == que -> capacity);
+}
+
+int isempty(queue *que){
+    return (que -> size == 0);
+}
+
+void enqueue(queue *que, int k){
+    if (isfull(que)){
+        return;
+    }
+    que -> rear = (que -> rear + 1) % que -> capacity;
+    que -> array[ que -> rear ] = k;
+    que -> size = que -> size + 1;
+    cout<<"Item Enqueued : "<<k<<endl;
+}
+
+int dequeue(queue *que){
+    if (isempty(que)){
+        return INT_MIN;
+    }
+    int k = que -> array[que -> front];
+    que -> front = (que -> front + 1) % que -> capacity;
+    que -> size = que -> size - 1;
+    return k;
+}
+
+int front(queue *que){
+    if (isempty(que)){
+        return INT_MIN;
+    }
+    return que -> array [que -> front];
+}
+
+int rear(queue *que){
+    if (isempty(que)){
+        return INT_MIN;
+    }
+    return que -> array[que -> rear];
+}
+
+int main(){
+    queue *que = create_queue(1000);
+    enqueue(que,1);
+    enqueue(que,2);
+    enqueue(que,3);
+    enqueue(que,4);
+    enqueue(que,5);
+    enqueue(que,6);
+    
+    cout<<endl<<"Call 1 : "<<endl;
+    cout<<"Dequeue = "<<dequeue(que)<<endl;
+    cout<<"Front = "<<front(que)<<endl;
+    cout<<"Rear = "<<rear(que)<<endl;
+    
+    cout<<endl<<"Call 2 : "<<endl;
+    cout<<"Dequeue = "<<dequeue(que)<<endl;
+    cout<<"Front = "<<front(que)<<endl;
+    cout<<"Rear = "<<rear(que)<<endl;
+    
+    cout<<endl<<"Call 3 : "<<endl;
+    cout<<"Dequeue = "<<dequeue(que)<<endl;
+    cout<<"Front = "<<front(que)<<endl;
+    cout<<"Rear = "<<rear(que)<<endl;
+    
+    cout<<endl<<"Call 4 : "<<endl;
+    cout<<"Dequeue = "<<dequeue(que)<<endl;
+    cout<<"Front = "<<front(que)<<endl;
+    cout<<"Rear = "<<rear(que)<<endl;
+    
+    cout<<endl<<"Call 5 : "<<endl;
+    cout<<"Dequeue = "<<dequeue(que)<<endl;
+    cout<<"Front = "<<front(que)<<endl;
+    cout<<"Rear = "<<rear(que)<<endl;
+    
+    cout<<endl<<"Call 6 : "<<endl;
+    cout<<"Dequeue = "<<dequeue(que)<<endl;
+    cout<<"Front = "<<front(que)<<endl;
+    cout<<"Rear = "<<rear(que)<<endl;
+    
+    cout<<endl<<"Call 7 : "<<endl;
+    cout<<"Dequeue = "<<dequeue(que)<<endl;
+    cout<<"Front = "<<front(que)<<endl;
+    cout<<"Rear = "<<rear(que)<<endl;
+    
+    
+    return 0;
+}

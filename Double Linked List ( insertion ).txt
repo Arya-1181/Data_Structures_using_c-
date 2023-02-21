@@ -1,0 +1,124 @@
+#include <iostream>
+
+using namespace std;
+
+struct node{
+    int data;
+    node *next;
+    node *prev;
+};
+
+void traversefront (node *head){
+    node *temp = head;
+    cout<<"Traverse from front : ";
+    while (temp!=NULL){
+        cout<<temp -> data<<"  ";
+        temp = temp -> next;
+    }
+    cout<<endl;
+}
+
+void traverseback (node *tail){
+    node *temp = tail;
+    cout<<"Traverse from back : ";
+    while (temp!=NULL){
+        cout<<temp -> data<<"  ";
+        temp = temp -> prev;
+    }
+    cout<<endl<<endl;
+}
+
+void addfront (node **head, int k){
+    node *buffer = new node();
+    buffer -> data = k;
+    buffer -> next = (*head);
+    (*head) -> prev = buffer;
+    buffer -> prev = NULL;
+    
+    (*head) = buffer;
+}
+
+void addback (node **tail, int k){
+    node *buffer = new node();
+    buffer -> data = k;
+    buffer -> next = NULL;
+    (*tail) -> next = buffer;
+    buffer -> prev = (*tail);
+    
+    (*tail) = buffer;
+}
+
+
+int main(){
+    node *head = NULL;
+    node *second = NULL;
+    node *third = NULL;
+    node *fourth = NULL;
+    node *fifth = NULL;
+    node *sixth = NULL;
+    node *seventh = NULL;
+    node *eighth = NULL;
+    node *ninth = NULL;
+    node *tenth = NULL;
+    
+    head = new node();
+    second = new node();
+    third = new node();
+    fourth = new node();
+    fifth = new node();
+    sixth = new node();
+    seventh = new node();
+    eighth = new node();
+    ninth = new node();
+    tenth = new node();
+    
+    head -> data = 1;
+    head -> next = second;
+    head -> prev = NULL;
+    
+    second -> data = 2;
+    second -> next = third;
+    second -> prev = head;
+    
+    third -> data = 3;
+    third -> next = fourth;
+    third -> prev = second;
+    
+    fourth -> data = 4;
+    fourth -> next = fifth;
+    fourth -> prev = third;
+    
+    fifth -> data = 5;
+    fifth -> next = sixth;
+    fifth -> prev = fourth;
+    
+    sixth -> data = 6;
+    sixth -> next = seventh;
+    sixth -> prev = fifth;
+    
+    seventh -> data = 7;
+    seventh -> next = eighth;
+    seventh -> prev = sixth;
+    
+    eighth -> data = 9;
+    eighth -> next = ninth;
+    eighth -> prev = seventh;
+    
+    ninth -> data = 10;
+    ninth -> next = tenth;
+    ninth -> prev = eighth;
+    
+    tenth -> data = 11;
+    tenth -> next = NULL;
+    tenth -> prev = ninth;
+    
+    traversefront(head);
+    traverseback(tenth);
+    
+    addfront(&head,100);
+    addback(&tenth,500);
+    
+    traversefront(head);
+    traverseback(tenth);
+    
+}S

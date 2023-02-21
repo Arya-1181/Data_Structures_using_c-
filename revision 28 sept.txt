@@ -1,0 +1,126 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+struct node{
+    int data;
+    node *left, *right;
+    node (int val){
+        data = val;
+        left = NULL;
+        right = NULL;
+    }
+};
+
+node* push(int k, node *root){
+    if (root==NULL){
+        root = new node(k);
+        return root;
+    }
+    if (root -> data < k){
+        root -> right = push(k,root -> right);
+    }
+    else{
+        root -> left = push(k, root -> left);
+    }
+    return root;
+}
+
+void print(node *root){
+    if (root==NULL){
+        return;
+    }
+
+    cout<<root -> data<<" ";
+    print(root -> left);
+    print(root -> right);
+}
+
+void delete_node (node *root, node *del){
+    queue <struct node*> q;
+    q.push(root);
+    struct node *temp;
+    while (!q.empty()){
+        temp = q.front();
+        q.pop();
+        if (temp == del){
+            temp = NULL;
+            delete (del);
+            return;
+        }
+        if (temp -> right){
+            if (temp -> right == del){
+                temp -> right = NULL;
+                delete (del);
+                return;
+            }
+            else
+            q.push(temp->right);
+        }
+        if (temp -> left){
+            if (temp -> left == del){
+                temp -> left = NULL;
+                delete (del);
+                return;
+            }
+            else
+            q.push(temp->left);
+        }
+    }
+}
+
+node* deletion (node *root, int k){
+    if (root == NULL){
+        return NULL;
+    }
+    if (root -> left == NULL && root -> right == NULL){
+        if (root -> data == k){
+            return NULL;
+        }
+        else{
+            return root;
+        }
+    }
+    queue <struct node*> q;
+    q.push(root);
+    struct node* temp;
+    struct node* key = NULL;
+    while (!q.empty()){
+        temp = q.front();
+        q.pop();
+        if (temp -> data==k){
+            key = temp;
+            break;
+        }
+        if (temp -> left){
+            q.push(temp -> left);
+        }
+        if (temp -> right){
+            q.push(temp -> right);
+        }
+    }
+    if (key != NULL){
+        int x = temp -> data;
+        delete_node (root,temp);
+        key -> data = x;
+    }
+    return root;
+}
+
+
+
+int main() {
+    node *root = NULL;
+    root = new node(5);
+    root -> left = new node(3);
+    root -> left -> left = new node(2);
+    root -> left -> right = new node(4);
+    
+    root -> right = new node(7);
+    root -> right -> left = new node(6);
+    root -> right -> right = new node(8);
+    push(1,root);
+//    deletion(root,1);
+        cout<<"preorder traversal"<<endl;
+    print(root);
+    return 0;
+}

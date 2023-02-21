@@ -1,0 +1,86 @@
+#include <iostream>
+
+using namespace std;
+
+struct node{
+    int data;
+    node *left , *right;
+    node (int val){
+        data = val;
+        left = NULL;
+        right = NULL;
+    }
+};
+
+struct list{
+    int val;
+    list *next;
+};
+
+void print(node *root){
+    if (root==NULL){
+        return;
+    }
+    cout<<root -> data<<"  ";
+    print(root -> left);
+    print (root -> right);
+}
+
+void push(list *head, int data){
+    if (head==NULL){
+        head -> val = data;
+        head -> next = NULL;
+        return;
+    }
+    list *temp = head;
+    while (temp -> next != NULL){
+        temp = temp -> next;
+    }
+    list *buffer = NULL;
+    buffer = new list();
+    buffer -> val = data;
+    buffer -> next = NULL;
+    temp -> next = buffer;
+}
+
+void printl(list *head){
+    while (head!=NULL){
+        cout<<head -> val<<"  ";
+        head = head -> next;
+    }
+}
+
+void create (node *root, list *head){
+    if (root==NULL){
+        return;
+    }
+    push(head, root -> data);
+    create (root -> left, head);
+    create (root -> right, head);
+}
+
+int main()
+{
+   node *root = new node(1);
+   
+   root -> left = new node(2);
+   root -> right = new node(3);
+   
+   root -> left -> left = new node(4);
+   root -> left -> right = new node(5);
+   
+   root -> right -> left = new node(6);
+   root -> right -> right = new node(7);
+   
+   list *head = NULL;
+   head = new list();
+   
+   create(root, head);
+   
+   print(root);
+   cout<<endl;
+   printl(head);
+
+   
+   return 0;
+}

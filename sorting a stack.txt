@@ -1,0 +1,225 @@
+//MY Code
+
+#include <bits/stdc++.h>
+
+using namespace std;
+
+void print(stack <int> st){
+    while (!st.empty()){
+        cout<<st.top()<<"  ";
+        st.pop();
+    }
+}
+
+void sortinsert(stack <int> st, vector <int> v){
+    for (int i=v.size()-1; i>=0; i--){
+        st.push(v[i]);
+    }
+    print(st);
+}
+
+void sort(stack <int> st){
+    vector <int> v;
+    while (!st.empty()){
+        v.push_back(st.top());
+        st.pop();
+    }
+    sort(v.begin(), v.end());
+    sortinsert(st,v);
+}
+
+int main(){
+   stack <int> st;
+   st.push(11);
+   st.push(151);
+   st.push(-100);
+   st.push(-15);
+   st.push(121);
+   st.push(10);
+   
+   sort(st);
+   
+   return 0;
+}
+
+
+
+// GFG code
+
+
+#include <iostream>
+using namespace std;
+ 
+// Stack is represented using linked list
+struct stack {
+    int data;
+    struct stack* next;
+};
+ 
+// Utility function to initialize stack
+void initStack(struct stack** s) { *s = NULL; }
+ 
+// Utility function to check if stack is empty
+int isEmpty(struct stack* s)
+{
+    if (s == NULL)
+        return 1;
+    return 0;
+}
+ 
+// Utility function to push an item to stack
+void push(struct stack** s, int x)
+{
+    struct stack* p = (struct stack*)malloc(sizeof(*p));
+ 
+    if (p == NULL) {
+        fprintf(stderr, "Memory allocation failed.\n");
+        return;
+    }
+ 
+    p->data = x;
+    p->next = *s;
+    *s = p;
+}
+ 
+// Utility function to remove an item from stack
+int pop(struct stack** s)
+{
+    int x;
+    struct stack* temp;
+ 
+    x = (*s)->data;
+    temp = *s;
+    (*s) = (*s)->next;
+    free(temp);
+ 
+    return x;
+}
+ 
+// Function to find top item
+int top(struct stack* s) { return (s->data); }
+ 
+// Recursive function to insert an item x in sorted way
+void sortedInsert(struct stack** s, int x)
+{
+    // Base case: Either stack is empty or newly inserted
+    // item is greater than top (more than all existing)
+    if (isEmpty(*s) or x > top(*s)) {
+        push(s, x);
+        return;
+    }
+ 
+    // If top is greater, remove the top item and recur
+    int temp = pop(s);
+    sortedInsert(s, x);
+ 
+    // Put back the top item removed earlier
+    push(s, temp);
+}
+ 
+// Function to sort stack
+void sortStack(struct stack** s)
+{
+    // If stack is not empty
+    if (!isEmpty(*s)) {
+        // Remove the top item
+        int x = pop(s);
+ 
+        // Sort remaining stack
+        sortStack(s);
+ 
+        // Push the top item back in sorted stack
+        sortedInsert(s, x);
+    }
+}
+ 
+// Utility function to print contents of stack
+void printStack(struct stack* s)
+{
+    while (s) {
+        cout << s->data << " ";
+        s = s->next;
+    }
+    cout << "\n";
+}
+ 
+// Driver code
+int main(void)
+{
+    struct stack* top;
+ 
+    initStack(&top);
+    push(&top, 30);
+    push(&top, -5);
+    push(&top, 18);
+    push(&top, 14);
+    push(&top, -3);
+ 
+    cout << "Stack elements before sorting:\n";
+    printStack(top);
+ 
+    sortStack(&top);
+    cout << "\n";
+ 
+    cout << "Stack elements after sorting:\n";
+    printStack(top);
+ 
+    return 0;
+}
+ 
+// My code A/c to GfG
+
+#include <bits/stdc++.h>
+
+using namespace std;
+
+stack <int> st;
+
+void print(stack <int> st){
+    while (!st.empty()){
+        cout<<st.top()<<"  ";
+        st.pop();
+    }
+}
+
+void sortinsert(stack <int> st, int x){
+    if (st.empty() || x > st.top()){
+        st.push(x);
+        return;
+    }
+    int temp = st.top();
+    st.pop();
+    sortinsert(st,x);
+    
+    st.push(temp);
+
+}
+
+
+
+void sort(stack <int> st){
+    if(!st.empty()){
+        int x = st.top();
+        st.pop();
+        sort(st);
+        sortinsert(st,x);
+    }
+        
+//    print (st);
+}
+
+int main(){
+
+   st.push(11);
+   st.push(151);
+   st.push(-100);
+   st.push(-15);
+   st.push(121);
+   st.push(10);
+   
+   sort(st);
+   
+   print (st);
+   
+   return 0;
+}

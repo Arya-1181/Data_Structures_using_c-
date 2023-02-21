@@ -1,0 +1,42 @@
+#include <iostream>
+
+using namespace std;
+
+struct node{
+    int data;
+    node *left, *right;
+    node(int val){
+        data = val;
+        left = NULL;
+        right = NULL;
+    }
+};
+
+void print(node *root){
+    if (root==NULL){
+        return;
+    }
+    cout<<root -> data<<"  ";
+    print(root -> left);
+    print(root -> right);
+}
+
+int getmin (node *root){
+    node *curr = root;
+    while (curr -> left != NULL){
+        curr = curr -> left;
+    }
+    return curr -> data;
+}
+
+int main()
+{
+    node *root = new node(10);
+    root -> left = new node(2);
+    root -> right = new node(3);
+    root -> left -> left = new node(1);
+    print(root);
+    cout<<endl;
+    cout<<getmin(root);
+   return 0;
+}

@@ -1,0 +1,224 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+void insert_at_bottom(stack <int> &st, int ele){
+    if(st.empty()){
+        st.push(ele);
+        return;
+    }
+    
+    int topele = st.top();
+    st.pop();
+    insert_at_bottom(st,ele);
+    
+    st.push(topele);
+}
+
+void reverse(stack <int> &st){
+    if (st.empty())
+    return;
+    
+    int ele = st.top();
+    st.pop();
+    reverse(st);
+    insert_at_bottom(st,ele);
+}
+
+int prefix_evaluation(string s){
+    stack <int> st;
+    for (int i=s.length()-1; i>=0; i--){
+        if (s[i]>='0' && s[i]<='9'){
+            st.push(s[i]-'0');
+        }
+        else {
+            
+            int op1 = st.top();
+            st.pop();
+            int op2 = st.top();
+            st.pop();
+            
+            switch (s[i]){
+                case '+':st.push(op1 + op2);
+                break;
+                
+                case '-':st.push(op1 - op2);
+                break;
+                
+                case '/':st.push(op1 / op2);
+                break;
+                
+                case '*':st.push(op1 * op2);
+                break;
+                
+                case '^':st.push(pow(op1 , op2));
+                break;
+            }
+        }
+    }
+    return st.top();
+}
+
+int postfix_evaluation(string s){
+    stack <int> st;
+    for (int i=0; i<s.length(); i++){
+        if (s[i]>='0' && s[i]<='9'){
+            st.push(s[i] - '0');
+        }
+        else{
+            int op2 = st.top();
+            st.pop();
+            int op1 = st.top();
+            st.pop();
+            
+            switch (s[i]){
+                case '+': st.push(op1 + op2);
+                break;
+                
+                case '-': st.push(op1 - op2);
+                break;
+                
+                case '*': st.push(op1 * op2);
+                break;
+                
+                case '/': st.push(op1 / op2);
+                break;
+                
+                case '^': st.push(pow(op1 , op2));
+                break;
+            }
+        }
+    }
+    return st.top();
+}
+
+int prec(char c){
+    if (c=='^')
+    return 3;
+    
+    else if (c=='*'||c=='/')
+    return 2;
+    
+    else if (c=='+'||c=='-')
+    return 1;
+    
+    return -1;
+}
+
+string infix_to_postfix(string s){
+    stack <char> st;
+    string res="";
+    
+    for (int i=0; i<s.length(); i++){
+        if (s[i]>='A'&&s[i]<='z'){
+            res += s[i];
+        }
+        else if (s[i]=='(') {
+            st.push(s[i]);
+        }
+        else if (s[i]==')') {
+            while (!st.empty() && st.top()!='('){
+                res += st.top();
+                st.pop();
+            }
+            if (!st.empty()){
+                st.pop();
+            }
+        }
+        else{
+            while (!st.empty() && prec(st.top())>prec(s[i])){
+                res += st.top();
+                st.pop();
+            }
+            st.push(s[i]);
+        }
+    }
+    while (!st.empty()){
+        res += st.top();
+        st.pop();
+    }
+    
+    return res;
+}
+
+void reverse_brackets(string s){
+    for (int i=0; i<s.length(); i++){
+        if(s[i]=='(')
+        s[i] = ')';
+        
+        if (s[i]==')')
+        s[i] = '(';
+    }
+}
+
+string infix_to_prefix(string s){
+    stack <char> st;
+    
+    reverse(s.begin(),s.end());
+    reverse_brackets(s);
+    
+    string res="";
+    
+    for (int i=0; i<s.length(); i++){
+        if (s[i]>='A'&&s[i]<='z'){
+            res += s[i];
+        }
+        else if (s[i]=='(') {
+            st.push(s[i]);
+        }
+        else if (s[i]==')') {
+            while (!st.empty() && st.top()!='('){
+                res += st.top();
+                st.pop();
+            }
+            if (!st.empty()){
+                st.pop();
+            }
+        }
+        else{
+            while (!st.empty() && prec(st.top())>=prec(s[i])){
+                res += st.top();
+                st.pop();
+            }
+            st.push(s[i]);
+        }
+    }
+    while (!st.empty()){
+        res += st.top();
+        st.pop();
+    }
+    
+    reverse(res.begin(),res.end());
+    
+    return res;
+}
+
+int main()
+{
+   stack <int> st;
+   st.push(1);
+   st.push(2);
+   st.push(3);
+   st.push(4);
+   st.push(5);
+   
+//   reverse(st);
+   
+   while(!st.empty()){
+       cout<<st.top()<<"  ";
+       st.pop();
+   }
+   
+   cout<<endl<<"prefix_evaluation of ' -+7*45+20 ' = ";
+   cout<<prefix_evaluation("-+7*45+20")<<endl;
+   
+   cout<<"postfix_evaluation of ' 46+2/5*7+ ' = ";
+   cout<<postfix_evaluation("46+2/5*7+")<<endl;
+   
+   cout<<"Infix to Postfix of expression ' (a-b/c)*(a/k-l) ' = ";
+   cout<<infix_to_postfix("(a-b/c)*(a/k-l)")<<endl;
+   
+   cout<<"Infix to Prefix of expression ' (a-b/c)*(a/k-l) ' = ";
+   cout<<infix_to_prefix("(a-b/c)*(a/k-l)")<<endl;
+   return 0;
+}

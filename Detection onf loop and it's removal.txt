@@ -1,0 +1,115 @@
+#include <iostream>
+
+using namespace std;
+
+struct node{
+    int data;
+    node *next;
+};
+
+void print (node *head){
+    node *temp = head;
+    while (temp!=NULL){
+        cout<<temp -> data<<"  ";
+        temp = temp -> next;
+    }
+}
+
+// hare - tortoise algorithm
+bool checkloop(node *head){
+    node *fast = head;
+    node *slow = head;
+    
+    while (fast!=NULL && fast -> next!=NULL){
+        slow = slow -> next;
+        fast = fast -> next -> next;
+        
+         if (fast==slow)
+         return true;
+    }
+
+    return false;
+}
+
+void breakloop(node *head){
+    node *fast = head;
+    node *slow = head;
+    
+    do {
+        slow = slow -> next;
+        fast = fast -> next -> next;
+    } while (slow!=fast);
+    
+    fast = head;
+    
+    while (fast -> next != slow -> next){
+        fast = fast -> next;
+        slow = slow -> next;
+    }
+    slow -> next = NULL;
+}
+
+int main(){
+    // first list
+     node *head = NULL;
+     node *second = NULL;
+     node *third = NULL;
+     node *fourth = NULL;
+     node *fifth = NULL;
+     
+     head = new node();
+     second = new node();
+     third = new node();
+     fourth = new node();
+     fifth = new node();
+     
+     node *head1 = NULL;
+     node *second1 = NULL;
+     node *third1 = NULL;
+     node *fourth1 = NULL;
+     node *fifth1 = NULL;
+
+     head1 = new node();
+     second1 = new node();
+     third1 = new node();
+     fourth1 = new node();
+     fifth1 = new node();
+     
+     head -> data = 1;
+     head -> next = second;
+     
+     second -> data = 2;
+     second -> next = third;
+     
+     third -> data = 3;
+     third -> next = fourth;
+     
+     fourth -> data = 4;
+     fourth -> next = fifth;
+     
+     fifth -> data = 5;
+     fifth -> next = head1;
+     // second list
+     
+     
+     head1 -> data = 10;
+     head1 -> next = second1;
+     
+     second1 -> data = 20;
+     second1 -> next = third1;
+     
+     third1 -> data = 30;
+     third1 -> next = fourth1;
+     
+     fourth1 -> data = 40;
+     fourth1 -> next = fifth1;
+     
+     fifth1 -> data = 50;
+     fifth1 -> next = fifth;
+     
+     cout<<checkloop(head)<<endl;
+     breakloop(head);
+     cout<<checkloop(head)<<endl;
+     print(head);
+
+}

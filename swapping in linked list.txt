@@ -1,0 +1,166 @@
+void swap(node **head,int x,int y){
+    if (x==y)
+    return;
+    
+    node *prevx = NULL, *currx = *head;
+    while (currx && currx -> data != x){
+        prevx = currx;
+        currx = currx -> next;
+    }
+    node *prevy = NULL , *curry = *head;
+    while (curry && curry -> data != y){
+        prevy = curry;
+        curry = curry -> next;
+    }
+    if (currx==NULL||curry==NULL)
+    return;
+    
+    if (prevx != NULL)
+        prevx->next = curry;
+    else 
+        *head = curry;
+
+    if (prevy != NULL)
+        prevy -> next = currx;
+    else
+        *head = currx;
+    
+    node *temp = curry -> next;
+    curry -> next = currx -> next;
+    currx -> next = temp;
+}
+// full code
+#include <iostream>
+
+using namespace std;
+
+struct node{
+    public:
+    int data;
+    node *next;
+};
+
+int length(node *head){
+    node *temp=NULL;
+    temp = new node();
+    temp = head;
+    int count=0;
+    while (temp!=0){
+        temp = temp -> next;
+        count++;
+    }
+    return count;
+}
+
+int getcount(node *head){
+    node *temp=NULL;
+    temp = head;
+    if (temp==NULL)
+    return 0;
+    
+    else 
+    return 1 + getcount(temp -> next);
+}
+// Global variable causes memory leak
+void gethead(node *head){
+    if (head!=NULL){
+        node *temp = head;
+        head = head -> next;
+        
+        free (temp);
+    }
+} 
+// Goes wrong if return value not assigned
+node *gothead(node *head){
+    if (head!=NULL){
+        node *temp = head;
+        head = head -> next;
+        
+        free (temp);
+    }
+    return head;
+}
+//Best method
+void gettinghead(node **head){
+    if (*head!=NULL){
+        node *temp = *head;
+        (*head) = (*head) -> next;
+        
+        free (temp);
+    }
+}
+void swap(node **head,int x,int y){
+    if (x==y)
+    return;
+    
+    node *prevx = NULL, *currx = *head;
+    while (currx && currx -> data != x){
+        prevx = currx;
+        currx = currx -> next;
+    }
+    node *prevy = NULL , *curry = *head;
+    while (curry && curry -> data != y){
+        prevy = curry;
+        curry = curry -> next;
+    }
+    if (currx==NULL||curry==NULL)
+    return;
+    
+    if (prevx != NULL)
+        prevx->next = curry;
+    else 
+        *head = curry;
+
+    if (prevy != NULL)
+        prevy -> next = currx;
+    else
+        *head = currx;
+    
+    node *temp = curry -> next;
+    curry -> next = currx -> next;
+    currx -> next = temp;
+}
+
+int main()
+{
+   node *head = NULL;
+   node *second = NULL;
+   node *third = NULL;
+   node *fourth = NULL;
+   node *fifth = NULL;
+   
+   head = new node();
+   second = new node();
+   third = new node();
+   fourth = new node();
+   fifth = new node();
+   
+   head -> data = 1;
+   head -> next = second;
+   
+   second -> data = 2;
+   second -> next = third;
+   
+   third -> data = 3;
+   third -> next = fourth;
+   
+   fourth -> data = 4;
+   fourth -> next = fifth;
+   
+   fifth -> data = 5;
+   fifth -> next = NULL;
+   
+   node *temp=head;
+   
+//   gethead(head);
+//   gothead(head);
+//   gettinghead(&head);
+
+    swap(&head,2,4);
+    while (temp!=NULL){
+       cout<<temp -> data<<" ";
+       temp = temp -> next;
+    }
+    cout<<endl<<length(head)<<endl<<getcount(head);
+   return 0;
+}

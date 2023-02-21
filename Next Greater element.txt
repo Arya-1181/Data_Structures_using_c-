@@ -1,0 +1,37 @@
+#include <bits/stdc++.h>
+#include<iostream>
+
+using namespace std;
+
+void print(int v[], int n){
+    stack <int> st;
+    st.push(v[0]);
+    for (int i=1; i<n; i++){
+        if (st.empty())
+        st.push(v[i]);
+        
+        while (st.empty()==false && st.top()<v[i]){
+            cout<<st.top()<<" --> "<<v[i]<<endl;
+            st.pop();
+            
+        }
+        
+        st.push(v[i]);
+    }
+    
+    while (st.empty() == false){
+            cout<<st.top()<<" --> "<<"-1"<<endl;
+            st.pop();
+    }
+}
+
+int main()
+{
+    int n;
+    cin>>n;
+    int arr[n];
+    for (int i=0; i<n; i++)
+    cin>>arr[i];
+    print(arr,n);
+   return 0;
+}

@@ -1,0 +1,16 @@
+
+void reverse(node **head){
+    node *before = new node();
+    node *current = new node();
+    node *after = new node();
+    current = *head;
+    before = NULL;
+    after = NULL;
+    while (current!=NULL){
+        after = current -> next;
+        current -> next = before;
+        before = current;
+        current = after;
+    }
+    *head = before;
+}

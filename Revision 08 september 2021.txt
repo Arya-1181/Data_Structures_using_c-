@@ -1,0 +1,200 @@
+#include <iostream>
+
+using namespace std;
+
+class Node
+{
+    public:
+    int data;
+    Node *next;
+};
+
+void print(Node *n){
+    while (n!=NULL){
+        cout<<n -> data<<" ";
+        n=n ->next;
+    }
+}
+
+void first(Node **head,int fresh){
+    Node *fresh_node=new Node();
+    fresh_node->data=fresh;
+    fresh_node->next=*head;
+    *head=fresh_node;
+}
+
+void middle(Node *before,int fresh){
+    if (before==NULL)
+    cout<<"preceding node cannot be empty";
+    Node *fresh_node=new Node();
+    fresh_node->data=fresh;
+    fresh_node->next=before->next;
+    before->next=fresh_node;
+}
+
+void last(Node **head,int fresh){
+    Node *fresh_node=new Node();
+    Node *last= *head;
+    fresh_node->next=NULL;
+    if (*head==NULL)
+    *head=fresh_node;
+    while(last->next!=NULL)
+    last=last->next;
+    last->next=fresh_node;
+}
+
+void delnode(Node **hint,int key){
+    Node *temp = *hint;
+    Node *prev = NULL;
+    
+    if (temp != NULL && temp -> data == key){
+        *hint = temp -> next;
+        delete temp;
+        return;
+    }
+    else{
+        while (temp != NULL && temp -> data != key){
+            prev = temp;
+            temp = temp -> next;
+        }
+        
+        if (temp == NULL)
+        return;
+        
+        prev -> next = temp -> next;
+        delete temp;
+    
+    }
+    
+}
+
+void delpos(Node **hint, int pos){
+    
+    Node *current = *hint;
+    Node *previous = *hint;
+    
+    if (*hint == NULL)
+    cout<<"List is empty"<<endl;
+    
+    else if (pos==1){
+        *hint = current -> next;
+        free(current);
+        current = NULL;
+    }
+    else {
+        while (pos!=1){
+            previous = current;
+            current = current -> next;
+            pos--;
+        }
+        previous -> next = current -> next;
+        free(current);
+        current = NULL;
+    }
+}
+
+int main(){
+    Node *head=NULL;
+    Node *second=NULL;
+    Node *third=NULL;
+    
+    head=new Node();
+    second=new Node();
+    third=new Node();
+    
+    head -> data=1;
+    head -> next=second;
+    
+    second -> data=2;
+    second -> next=third;
+    
+    third -> data=3;
+    third -> next=NULL;
+    
+    print(head);
+    cout<<endl;
+    first(&head,50);
+    print(head);
+    cout<<endl;
+    middle(head->next,10);
+    print(head);
+    cout<<endl;
+    last(&head,100);
+    print(head);
+    cout<<endl;
+    delnode(&head,10);
+    print(head);
+    cout<<endl;
+    delpos(&head,3);
+    print(head);
+    
+    
+    return 0;
+} 
+
+/*
+
+#include <iostream>
+
+using namespace std;
+
+struct node{
+    public:
+    int data;
+    node *next;
+};
+
+void fun1(struct node* head)
+{
+  if (head == NULL)
+      return;
+ 
+  fun1(head->next);
+  cout << head->data << " ";
+}
+
+void fun2(struct node* head)
+{
+    if(head == NULL)
+        return;
+    cout << head->data << " ";
+     
+    if(head->next != NULL )
+        fun2(head->next->next);
+    cout << head->data << " ";
+} 
+
+int main()
+{
+    node *head=NULL;
+    node *second=NULL;
+    node *third=NULL;
+    
+    head = new node();
+    second = new node();
+    third = new node();
+    
+    head -> data = 1;
+    head -> next = second;
+    
+    second -> data = 2;
+    second -> next = third;
+    
+    third -> data = 3;
+    third -> next = NULL;
+    
+    node *ptr=NULL;
+    ptr = head;
+    
+    while (ptr!=NULL){
+        cout << ptr -> data <<" ";
+        ptr = ptr -> next;
+    }
+    cout<<endl;
+    fun1(head);
+    cout<<endl;
+    fun2(head);
+   
+   return 0;
+}
+*/

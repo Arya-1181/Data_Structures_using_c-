@@ -1,0 +1,74 @@
+#include <iostream>
+
+using namespace std;
+
+class Node
+{
+    public:
+    int data;
+    Node *next;
+};
+
+void print(Node *n){
+    while (n!=NULL){
+        cout<<n -> data<<" ";
+        n=n ->next;
+    }
+}
+
+void first(Node **head,int fresh){
+    Node *fresh_node=new Node();
+    fresh_node->data=fresh;
+    fresh_node->next=(*head);
+    (*head)=fresh_node;
+}
+
+void middle(Node *before,int fresh){
+    if (before==NULL)
+    cout<<"preceding node cannot be empty";
+    Node *fresh_node=new Node();
+    fresh_node->data=fresh;
+    fresh_node->next=before->next;
+    before->next=fresh_node;
+}
+
+void last(Node **head,int fresh){
+    Node *fresh_node=new Node();
+    Node *last= *head;
+    fresh_node->next=NULL;
+    if (*head==NULL)
+    *head=fresh_node;
+    while(last->next!=NULL)
+    last=last->next;
+    last->next=fresh_node;
+}
+
+int main(){
+    Node *head=NULL;
+    Node *second=NULL;
+    Node *third=NULL;
+    
+    head=new Node();
+    second=new Node();
+    third=new Node();
+    
+    head -> data=1;
+    head -> next=second;
+    
+    second -> data=2;
+    second -> next=third;
+    
+    third -> data=3;
+    third -> next=NULL;
+    
+    print(head);
+    cout<<endl;
+    first(&head,50);
+    print(head);
+    cout<<endl;
+    middle(second->next,10);
+    print(head);
+    cout<<endl;
+    last(&head,100);
+    print(head);
+} 
